@@ -112,12 +112,14 @@ func (bs *BatchSubmitter) Initialize(ctx context.Context, startHeight int64, hos
 	if len(bs.batchInfos) == 0 {
 		return errors.New("no batch info")
 	}
+	deletes := 0
 	for _, batchInfo := range bs.batchInfos {
 		if len(bs.batchInfos) == 1 || types.MustUint64ToInt64(batchInfo.Output.L2BlockNumber+1) >= bs.node.GetHeight() {
 			break
 		}
-		bs.DequeueBatchInfo()
+		deletes++
 	}
+	bs.DequeueBatchInfo(deletes)
 
 	fileFlag := os.O_CREATE | os.O_RDWR | os.O_APPEND
 	bs.batchFile, err = os.OpenFile(bs.homePath+"/batch", fileFlag, 0666)

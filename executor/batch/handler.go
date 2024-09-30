@@ -118,7 +118,7 @@ func (bs *BatchSubmitter) prepareBatch(blockHeight int64) error {
 		}
 		// set last processed block height to l2 block number
 		bs.node.SetSyncInfo(types.MustUint64ToInt64(nextBatchInfo.Output.L2BlockNumber))
-		bs.DequeueBatchInfo()
+		bs.DequeueBatchInfo(1)
 
 		// error will restart block process from nextBatchInfo.Output.L2BlockNumber + 1
 		panic(fmt.Errorf("batch info updated: reset from %d", nextBatchInfo.Output.L2BlockNumber))
@@ -329,9 +329,16 @@ func (bs *BatchSubmitter) NextBatchInfo() *ophosttypes.BatchInfoWithOutput {
 }
 
 // DequeueBatchInfo removes the first batch info from the queue
-func (bs *BatchSubmitter) DequeueBatchInfo() {
+func (bs *BatchSubmitter) DequeueBatchInfo(deletes int) error {
 	bs.batchInfoMu.Lock()
 	defer bs.batchInfoMu.Unlock()
 
-	bs.batchInfos = bs.batchInfos[1:]
+	if deletes <= 0 {
+		return nil
+	} else if len(bs.batchInfos) <= deletes {
+		return errors.New("cannot delete more than the number of batch infos")
+	}
+
+	bs.batchInfos = bs.batchInfos[deletes:]
+	return nil
 }

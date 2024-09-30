@@ -115,29 +115,40 @@ func (m *Merkle) FinalizeWorkingTree(extraData []byte) ([]types.RawKV, []byte /*
 }
 
 func (m *Merkle) DeleteFutureFinalizedTrees(fromSequence uint64) error {
-	return m.db.PrefixedIterate(merkletypes.FinalizedTreeKey, func(key, _ []byte) (bool, error) {
+	deletingKeys := make([]types.KV, 0)
+	err := m.db.PrefixedIterate(merkletypes.FinalizedTreeKey, func(key, _ []byte) (bool, error) {
 		sequence := dbtypes.ToUint64Key(key[len(key)-8:])
 		if sequence >= fromSequence {
-			err := m.db.Delete(key)
-			if err != nil {
-				return true, err
-			}
+			// if value is empty, it will delete the key
+			deletingKeys = append(deletingKeys, types.KV{
+				Key: key,
+			})
 		}
 		return false, nil
 	})
+	if err != nil {
+		return err
+	}
+
+	return m.db.BatchSet(deletingKeys...)
 }
 
 func (m *Merkle) DeleteFutureWorkingTrees(fromVersion uint64) error {
-	return m.db.PrefixedIterate(merkletypes.WorkingTreeKey, func(key, _ []byte) (bool, error) {
+	deletingKeys := make([]types.KV, 0)
+	err := m.db.PrefixedIterate(merkletypes.WorkingTreeKey, func(key, _ []byte) (bool, error) {
 		version := dbtypes.ToUint64Key(key[len(key)-8:])
 		if version >= fromVersion {
-			err := m.db.Delete(key)
-			if err != nil {
-				return true, err
-			}
+			deletingKeys = append(deletingKeys, types.KV{
+				Key: key,
+			})
 		}
 		return false, nil
 	})
+	if err != nil {
+		return err
+	}
+
+	return m.db.BatchSet(deletingKeys...)
 }
 
 // LoadWorkingTree loads the working tree from the database.
