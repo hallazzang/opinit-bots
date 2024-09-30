@@ -72,6 +72,8 @@ func (h *Host) endBlockHandler(_ context.Context, args nodetypes.EndBlockArgs) e
 	h.eventHandler.DeletePendingEvents(precessedEvents)
 	h.eventHandler.SetPendingEvents(h.outputPendingEventQueue)
 	h.challenger.SendPendingChallenges(pendingChallenges)
+
+	h.SetNextOracleEnabled()
 	return nil
 }
 

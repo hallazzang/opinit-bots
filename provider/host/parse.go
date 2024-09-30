@@ -51,6 +51,27 @@ func ParseMsgUpdateBatchInfo(eventAttrs []abcitypes.EventAttribute) (
 	return
 }
 
+func ParseMsgUpdateOracleConfig(eventAttrs []abcitypes.EventAttribute) (
+	bridgeId uint64,
+	oracleEnabled bool,
+	err error) {
+	for _, attr := range eventAttrs {
+		switch attr.Key {
+		case ophosttypes.AttributeKeyBridgeId:
+			bridgeId, err = strconv.ParseUint(attr.Value, 10, 64)
+			if err != nil {
+				return
+			}
+		case ophosttypes.AttributeKeyOracleEnabled:
+			oracleEnabled, err = strconv.ParseBool(attr.Value)
+			if err != nil {
+				return
+			}
+		}
+	}
+	return
+}
+
 func ParseMsgInitiateDeposit(eventAttrs []abcitypes.EventAttribute) (
 	bridgeId, l1Sequence uint64,
 	from, to, l1Denom, l2Denom, amount string,

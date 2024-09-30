@@ -77,6 +77,7 @@ func (h *Host) registerHandlers() {
 	h.Node().RegisterTxHandler(h.txHandler)
 	h.Node().RegisterEventHandler(ophosttypes.EventTypeInitiateTokenDeposit, h.initiateDepositHandler)
 	h.Node().RegisterEventHandler(ophosttypes.EventTypeProposeOutput, h.proposeOutputHandler)
+	h.Node().RegisterEventHandler(ophosttypes.EventTypeUpdateOracle, h.UpdateOracleConfigHandler)
 	h.Node().RegisterEndBlockHandler(h.endBlockHandler)
 }
 

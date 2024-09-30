@@ -1329,6 +1329,8 @@ github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLf
 github.com/influxdata/influxdb1-client v0.0.0-20191209144304-8bf82d3c094d/go.mod h1:qj24IKcXYK6Iy9ceXlo3Tc+vtHo9lIhSX5JddghvEPo=
 github.com/initia-labs/OPinit v0.5.2 h1:KEiC72KGBa+X5DDMRrzVJCqNEGi7KX5cOYH/zAoDaQk=
 github.com/initia-labs/OPinit v0.5.2/go.mod h1:lx1amLMszculwPu8ln+btJno38UV28fd2nP7XC88ZeE=
+github.com/initia-labs/OPinit v0.5.3-0.20240930023521-102f0ad6e404 h1:LwzOf9ObEyz4h74UWPM5TZUn9duL0dydRszNjJjA04k=
+github.com/initia-labs/OPinit v0.5.3-0.20240930023521-102f0ad6e404/go.mod h1:lx1amLMszculwPu8ln+btJno38UV28fd2nP7XC88ZeE=
 github.com/initia-labs/OPinit/api v0.5.1 h1:zwyJf7HtKJCKvLJ1R9PjVfJO1L+d/jKoeFyT7WTLHFI=
 github.com/initia-labs/OPinit/api v0.5.1/go.mod h1:gHK6DEWb3/DqQD5LjKirUx9jilAh2UioXanoQdgqVfU=
 github.com/jhump/protoreflect v1.15.3 h1:6SFRuqU45u9hIZPJAoZ8c28T3nK64BNdp9w6jFonzls=

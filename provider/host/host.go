@@ -36,6 +36,8 @@ type BaseHost struct {
 
 	processedMsgs []btypes.ProcessedMsgs
 	msgQueue      []sdk.Msg
+
+	nextOracleEnabled bool
 }
 
 func NewBaseHostV1(cfg nodetypes.NodeConfig,
@@ -85,6 +87,7 @@ func (b *BaseHost) Initialize(ctx context.Context, startHeight int64, bridgeInfo
 		return err
 	}
 	b.SetBridgeInfo(bridgeInfo)
+	b.nextOracleEnabled = b.OracleEnabled()
 	return nil
 }
 
@@ -119,6 +122,10 @@ func (b BaseHost) BridgeId() uint64 {
 
 func (b BaseHost) OracleEnabled() bool {
 	return b.bridgeInfo.BridgeConfig.OracleEnabled
+}
+
+func (b *BaseHost) SetNextOracleEnabled() {
+	b.bridgeInfo.BridgeConfig.OracleEnabled = b.nextOracleEnabled
 }
 
 func (b *BaseHost) SetBridgeInfo(bridgeInfo opchildtypes.BridgeInfo) {

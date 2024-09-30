@@ -50,6 +50,8 @@ func (h *Host) endBlockHandler(_ context.Context, args nodetypes.EndBlockArgs) e
 	for _, processedMsg := range h.GetProcessedMsgs() {
 		h.child.BroadcastMsgs(processedMsg)
 	}
+
+	h.SetNextOracleEnabled()
 	return nil
 }
 

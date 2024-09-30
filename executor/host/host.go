@@ -93,6 +93,7 @@ func (h *Host) registerHandlers() {
 	h.Node().RegisterEventHandler(ophosttypes.EventTypeFinalizeTokenWithdrawal, h.finalizeWithdrawalHandler)
 	h.Node().RegisterEventHandler(ophosttypes.EventTypeRecordBatch, h.recordBatchHandler)
 	h.Node().RegisterEventHandler(ophosttypes.EventTypeUpdateBatchInfo, h.updateBatchInfoHandler)
+	h.Node().RegisterEventHandler(ophosttypes.EventTypeUpdateOracle, h.UpdateOracleConfigHandler)
 	h.Node().RegisterEndBlockHandler(h.endBlockHandler)
 }
 
