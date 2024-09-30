@@ -118,7 +118,10 @@ func (bs *BatchSubmitter) prepareBatch(blockHeight int64) error {
 		}
 		// set last processed block height to l2 block number
 		bs.node.SetSyncInfo(types.MustUint64ToInt64(nextBatchInfo.Output.L2BlockNumber))
-		bs.DequeueBatchInfo(1)
+		err = bs.DequeueBatchInfo(1)
+		if err != nil {
+			return err
+		}
 
 		// error will restart block process from nextBatchInfo.Output.L2BlockNumber + 1
 		panic(fmt.Errorf("batch info updated: reset from %d", nextBatchInfo.Output.L2BlockNumber))

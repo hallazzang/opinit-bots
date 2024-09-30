@@ -119,7 +119,10 @@ func (bs *BatchSubmitter) Initialize(ctx context.Context, startHeight int64, hos
 		}
 		deletes++
 	}
-	bs.DequeueBatchInfo(deletes)
+	err = bs.DequeueBatchInfo(deletes)
+	if err != nil {
+		return err
+	}
 
 	fileFlag := os.O_CREATE | os.O_RDWR | os.O_APPEND
 	bs.batchFile, err = os.OpenFile(bs.homePath+"/batch", fileFlag, 0666)
